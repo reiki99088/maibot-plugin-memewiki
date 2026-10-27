@@ -6,13 +6,13 @@
 
 环境：Windows 11，Python 3.12.10，项目内 `.venv`（aiohttp 3.14.5、Pillow 13.0.0、pydantic 2.14.1、pytest 9.1.1），SDK 从本地快照安装。
 
-`python -m pytest`：**83 passed，0 skipped**。
+`python -m pytest`：**84 passed，0 skipped**。
 
 ### 已验证（有测试或一手证据）
 
 | 项目 | 怎么验证的 |
 |---|---|
-| 内置库与上游一致 | `data/memes.db` 与上游 sha256 相同（05d902ff…），6668 条，构建于 2026-10-26 19:07:22 |
+| 内置库与上游一致 | `assets/memes.db` 与上游 sha256 相同（05d902ff…），6668 条，构建于 2026-10-26 19:07:22 |
 | 查词规则 | 精确命中、句内取最长标题、前缀不算、单字标题只认精确；同步库优先于内置库；无 db 时回退 index.json（`test_store.py`） |
 | 查询后不留句柄 | 查完立刻 `replace` + `unlink` 库文件不报 WinError 32（`test_no_open_handle_after_query`） |
 | 问梗闸门 | 上游 README 的 8 条示例消息，结果与预期一致（`test_gate.py`） |
@@ -40,4 +40,5 @@
 ### 开发中发现、已修正的问题
 
 - **Hook 返回值会整体替换 kwargs**：宿主 `hook_dispatcher` 用 `modified_kwargs` 直接替换原 kwargs，不做合并。最初只返回了 `items`，导致 `item_schema_version` 丢失，宿主会以“版本不受支持”为由忽略注入。现改为原样带回其它参数，只替换 `items`，并加了测试。
+- **内置词库不能放 `data/`**：Runner 发现插件目录下有 `data/` 会在每次加载时警告「旧式数据目录，建议迁移」（`runner_main._warn_legacy_plugin_data_dir`，只警告不搬动）。已改到 `assets/`，并加测试防回退。
 - 交接文档里有几处与宿主源码不符，已按源码修正：清单依赖字段是 `version_spec`；Command 返回 `(成功, 说明, 是否拦截)` 三元组；1.3.15 不派发 `ON_MESSAGE` 事件（`bot.py` 中已注释），预查改用 `chat.receive.after_process` Hook；WebUI 声明是 schema v2；`plugin.py` 必须用相对导入。

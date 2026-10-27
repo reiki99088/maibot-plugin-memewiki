@@ -2,10 +2,9 @@
 """同步 cnmeme.wiki 公开词库到本地：列表 → 详情 → 索引。
 
 用法：
-    python scripts/sync_memes.py                       # 默认写到插件目录下 data/
-    python scripts/sync_memes.py --data-dir /path/data # 指定数据目录
-    python scripts/sync_memes.py --list-only           # 只更新标题索引，不抓详情
-    python scripts/sync_memes.py --sleep 0.5           # 放慢请求（默认 0.35 秒）
+    python scripts/sync_memes.py --data-dir <数据目录>              # 必填；MaiBot 下是 data/plugins/<插件ID>
+    python scripts/sync_memes.py --data-dir <数据目录> --list-only  # 只更新标题索引，不抓详情
+    python scripts/sync_memes.py --data-dir <数据目录> --sleep 0.5  # 放慢请求（默认 0.35 秒）
 
 产物：
     <data-dir>/index.json      标题 → slug 字典（插件启动时加载）
@@ -181,7 +180,7 @@ def fetch_details(data_dir: Path, titles: dict[str, str], sleep: float, limit: i
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="同步 cnmeme.wiki 词库到本地")
-    parser.add_argument("--data-dir", default=str(Path(__file__).resolve().parent.parent / "data"))
+    parser.add_argument("--data-dir", required=True, help="插件数据目录（MaiBot 下为 data/plugins/<插件ID>），不要指向插件源码目录")
     parser.add_argument("--sleep", type=float, default=DEFAULT_SLEEP)
     parser.add_argument("--list-only", action="store_true", help="只更新索引，不抓详情")
     parser.add_argument("--limit", type=int, default=0, help="本次最多抓多少条详情（0 = 全部）")

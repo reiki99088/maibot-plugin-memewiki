@@ -27,7 +27,8 @@ from .memewiki.textify import entry_text, who_text
 
 VERSION = "0.1.0"
 PLUGIN_DIR = Path(__file__).resolve().parent
-BUNDLED_DB = PLUGIN_DIR / "data" / "memes.db"
+# 内置词库放 assets/：插件目录下若有 data/，宿主每次加载都会提示「旧式数据目录，建议迁移」
+BUNDLED_DB = PLUGIN_DIR / "assets" / "memes.db"
 SYNC_SCRIPT = PLUGIN_DIR / "scripts" / "sync_memes.py"
 USER_AGENT = f"MaiBot-memewiki/{VERSION} (+https://github.com/reiki99088/maibot-plugin-memewiki)"
 PREFETCH_TTL = 90           # 预查结果在多久内注入给同一会话的规划请求

@@ -64,3 +64,8 @@ def _async_return(value):
         return value
 
     return inner
+
+
+def test_no_legacy_data_dir_in_plugin():
+    """插件目录下有 data/ 时，宿主 Runner 每次加载都会警告「旧式数据目录，建议迁移」。"""
+    assert not (ROOT / "data").exists()

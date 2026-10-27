@@ -12,7 +12,7 @@ from pathlib import Path
 import pytest
 
 ROOT = Path(__file__).resolve().parent.parent
-BUNDLED_DB = ROOT / "data" / "memes.db"
+BUNDLED_DB = ROOT / "assets" / "memes.db"
 # 上游 MaiBot 只读快照，用来按宿主真实规则校验 webui.json 和 Hook 返回的 Context Item
 UPSTREAM_MAIBOT = Path(
     os.environ.get("MAIBOT_SRC", ROOT.parent.parent / "Work" / "memewiki-maibot-port" / "upstream" / "MaiBot")

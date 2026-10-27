@@ -2,7 +2,7 @@
 """把抓好的词条打包成随插件分发的 SQLite 数据库。
 
 用法：
-    python scripts/pack_data.py --source /root/cnmeme --out data/memes.db
+    python scripts/pack_data.py --source /root/cnmeme --out assets/memes.db
 
 产物 `memes.db` 含一张表：
     memes(title PRIMARY KEY, slug, tags, usage, origin, other, summary)

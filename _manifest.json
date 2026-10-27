@@ -1,0 +1,40 @@
+{
+  "manifest_version": 2,
+  "id": "reiki99088.maibot-plugin-memewiki",
+  "version": "0.1.0",
+  "name": "梗百科",
+  "description": "内置 6668 条网络梗词条，毫秒级查梗，没收录才查 cnmeme.wiki；/梗 图片卡片、/黑话 自建群内词条。移植自 astrbot_plugin_memewiki",
+  "author": {
+    "name": "reiki99088",
+    "url": "https://github.com/reiki99088"
+  },
+  "license": "MIT",
+  "urls": {
+    "repository": "https://github.com/reiki99088/maibot-plugin-memewiki",
+    "homepage": "https://github.com/reiki99088/maibot-plugin-memewiki",
+    "documentation": "https://github.com/reiki99088/maibot-plugin-memewiki/blob/main/README.md",
+    "issues": "https://github.com/reiki99088/maibot-plugin-memewiki/issues"
+  },
+  "changelog": "CHANGELOG.md",
+  "host_application": {
+    "min_version": "1.3.13",
+    "max_version": "1.3.99"
+  },
+  "sdk": {
+    "min_version": "2.16.0",
+    "max_version": "2.20.99"
+  },
+  "dependencies": [
+    {"type": "python_package", "name": "aiohttp", "version_spec": ">=3.9"},
+    {"type": "python_package", "name": "Pillow", "version_spec": ">=10"}
+  ],
+  "capabilities": [
+    "send.text",
+    "send.image",
+    "config.get"
+  ],
+  "i18n": {
+    "default_locale": "zh-CN",
+    "supported_locales": ["zh-CN"]
+  }
+}

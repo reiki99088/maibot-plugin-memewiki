@@ -1,0 +1,72 @@
+{
+  "schema_version": 2,
+  "pages": [
+    {
+      "id": "slang",
+      "title": "自定义黑话",
+      "description": "群内黑话词条。这里的修改立即生效，/梗 和 search_meme_wiki 工具都会优先查到它们；与 MaiBot 自学的黑话（Jargon）分开存放。",
+      "placement": "sidebar",
+      "icon": "list",
+      "queries": {
+        "terms": {"api": "terms_list", "version": "1"}
+      },
+      "actions": {
+        "save": {
+          "api": "terms_save",
+          "version": "1",
+          "parameters": {
+            "name": {"type": "string", "required": true, "max_length": 16},
+            "meaning": {"type": "string", "required": true, "max_length": 300}
+          }
+        },
+        "remove": {
+          "api": "terms_delete",
+          "version": "1",
+          "parameters": {
+            "name": {"type": "string", "required": true, "max_length": 16}
+          },
+          "arguments": {
+            "name": {"scope": "selection", "source": "termRow", "field": "name"}
+          },
+          "confirmation": "确认删除选中的黑话？删除前的版本会备份到 user_terms.json.bak。"
+        }
+      },
+      "content": [
+        {
+          "type": "card",
+          "label": "新增或更新",
+          "children": [
+            {"type": "input", "name": "name", "label": "名称（2–16 字）"},
+            {"type": "input", "name": "meaning", "label": "含义（不超过 300 字）"},
+            {"type": "button", "label": "保存", "action": "save"}
+          ]
+        },
+        {
+          "type": "card",
+          "label": "已记录的黑话",
+          "children": [
+            {"type": "stat", "label": "条数", "value": {"source": "terms", "field": "count"}},
+            {
+              "type": "table",
+              "value": {"source": "terms", "field": "items"},
+              "selection": "termRow",
+              "columns": [
+                {"field": "name", "label": "名称"},
+                {"field": "meaning", "label": "含义"},
+                {"field": "author", "label": "记录人"},
+                {"field": "ts", "label": "时间"}
+              ]
+            },
+            {
+              "type": "button",
+              "label": "删除选中",
+              "action": "remove",
+              "variant": "danger",
+              "disabled_when": {"reference": {"scope": "selection", "source": "termRow"}, "operator": "empty"}
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
